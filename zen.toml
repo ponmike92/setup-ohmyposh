@@ -1,0 +1,93 @@
+console_title_template = '{{ .Shell }} in {{ .Folder }}'
+version = 3
+final_space = true
+
+[palette]
+path = 'blue'
+cursor-active = 'magenta'
+cursor-normal = 'green'
+cursor-error = 'red'
+exec-time = '#222222'
+git = '#555555'
+python-env = '#333333'
+cursor-secondary = 'magenta'
+
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'path'
+    style = 'plain'
+    background = 'transparent'
+    foreground = 'p:path'
+    template = '{{ .Path }}'
+
+    [blocks.segments.properties]
+      style = 'folder'
+
+  [[blocks.segments]]
+    type = 'git'
+    style = 'plain'
+    background = 'transparent'
+    foreground = 'p:git'
+    template = ' {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}ᣟ{{ end }} <cyan>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+
+    [blocks.segments.properties]
+      branch_max_length = 25
+      fetch_status = true
+      fetch_upstream_icon = true
+
+[[blocks]]
+  type = 'rprompt'
+  overflow = 'hidden'
+
+  [[blocks.segments]]
+    type = 'executiontime'
+    style = 'plain'
+    foreground = 'p:exec-time'
+    background = 'transparent'
+    template = '{{ .FormattedMs }}'
+
+    [blocks.segments.properties]
+      threshold = 5000
+
+[[blocks]]
+  type = 'prompt'
+  alignment = 'left'
+  newline = true
+
+  [[blocks.segments]]
+    type = 'python'
+    style = 'plain'
+    background = 'transparent'
+    foreground = 'p:python-env'
+    template = '{{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}({{ .Venv }}) {{ end }}{{ end }}'
+
+    [blocks.segments.properties]
+      folder_name_fallback = true
+
+  [[blocks.segments]]
+    type = 'text'
+    style = 'plain'
+    foreground_templates = [
+      "{{if gt .Code 0}}p:cursor-error{{end}}",
+      "{{if eq .Code 0}}p:cursor-active{{end}}",
+    ]
+    background = 'transparent'
+    template = '❯'
+
+[transient_prompt]
+  foreground_templates = [
+    "{{if gt .Code 0}}p:cursor-error{{end}}",
+    "{{if eq .Code 0}}p:cursor-normal{{end}}",
+  ]
+  background = 'transparent'
+  template = '❯ '
+
+[secondary_prompt]
+  foreground = 'p:cursor-secondary'
+  background = 'transparent'
+  template = '❯❯ '
