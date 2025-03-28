@@ -34,7 +34,8 @@ cursor-secondary = 'magenta'
     style = 'plain'
     background = 'transparent'
     foreground = 'p:git'
-    template = ' {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}ᣟ{{ end }} <p:git-arrow>{{ if gt .Behind 0 }}⇣{{ end }}{{ if gt .Ahead 0 }}⇡{{ end }}</>'
+    template = ' {{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}ᣟ{{ end }}'
+
 
     [blocks.segments.properties]
       branch_max_length = 25
